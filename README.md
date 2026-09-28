@@ -125,4 +125,36 @@ GET /api/statistics/salary
 
 所有当前分析结果均为项目模拟数据统计结果，不能解释为真实招聘市场结论。
 
+## Frontend
+
+前端采用 Vue 3、Vite、Axios 和 ECharts，实现单页招聘模拟数据分析 Dashboard，包括数据概览、热门技能、城市岗位、类别分布、月薪对比以及带后端分页的岗位查询。
+
+开发时需要同时启动后端和前端：
+
+Terminal 1：
+
+```powershell
+cd backend
+mvn spring-boot:run '-Dspring-boot.run.profiles=local'
+```
+
+Terminal 2：
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+浏览器访问 `http://127.0.0.1:5173`。Vite 开发服务器将 `/api` 请求代理到 `http://localhost:8080`，因此无需为开发环境在 Spring Boot 中开放全局 CORS。
+
+生产构建：
+
+```powershell
+cd frontend
+npm run build
+```
+
+`frontend/dist/` 为构建产物并已被 Git 忽略。Dashboard 中的所有数据仍为项目模拟数据，仅用于功能演示。
+
 目前所有招聘记录均为模拟测试数据，不代表真实企业招聘信息，也不来自招聘网站爬取。

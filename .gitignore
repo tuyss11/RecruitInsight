@@ -10,6 +10,7 @@ target/
 # Node.js
 node_modules/
 dist/
+frontend/dist/
 
 # Environment variables and local secrets
 .env
