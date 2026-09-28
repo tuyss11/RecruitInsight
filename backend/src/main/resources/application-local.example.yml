@@ -1,0 +1,7 @@
+# Copy this file to application-local.yml and replace the placeholders locally.
+# application-local.yml is ignored by Git and must never be committed.
+spring:
+  datasource:
+    username: your_local_mysql_username
+    password: your_local_mysql_password
+
