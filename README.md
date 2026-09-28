@@ -31,8 +31,11 @@ RecruitInsight 是一个用于学习和作品展示的招聘数据分析平台�
 2. `001_create_job_table.sql`
 3. `002_insert_job_test_data.sql`
 4. `003_insert_more_job_test_data.sql`
+5. `004_extend_job_table.sql`
+6. `005_create_skill_tables.sql`
+7. `006_prepare_clean_import.sql`
 
-这些脚本不包含数据库密码。测试数据中的公司均为明确的示例名称。
+`002` 和 `003` 用于后端查询阶段的模拟数据；执行 `006` 会在正式导入清洗数据前清除这些旧记录。所有脚本都不包含数据库密码，测试数据中的公司均为明确的示例名称。
 
 ## 编译与启动
 
@@ -70,10 +73,15 @@ http://localhost:8080/api/jobs?page=1&size=10&keyword=Java&city=上海
 
 ## Data Processing
 
-当前数据处理流程为：
+当前数据处理与查询流程为：
 
 ```text
-模拟原始 CSV → Pandas cleaning → 清洗后的 CSV
+模拟 raw CSV
+→ Pandas cleaning
+→ processed CSV
+→ PyMySQL importer
+→ job / skill / job_skill
+→ Spring Boot API
 ```
 
 从项目根目录运行：
@@ -91,5 +99,13 @@ python data-analysis/src/clean_jobs.py
 ```powershell
 python -m unittest discover -s data-analysis/tests -v
 ```
+
+数据库导入程序为 `data-analysis/src/import_jobs.py`。连接信息从 `DB_HOST`、`DB_PORT`、`DB_NAME`、`DB_USERNAME` 和 `DB_PASSWORD` 环境变量读取，不能写入仓库。执行 migration 与本地模拟数据清理后运行：
+
+```powershell
+python data-analysis/src/import_jobs.py
+```
+
+岗位通过唯一 `source_id` 幂等更新，技能和岗位技能关系分别保存在 `skill` 与 `job_skill` 表中。数据库设计说明见 `docs/database-design.md`。
 
 目前所有招聘记录均为模拟测试数据，不代表真实企业招聘信息，也不来自招聘网站爬取。

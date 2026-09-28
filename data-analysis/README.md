@@ -12,6 +12,21 @@ python data-analysis/src/clean_jobs.py
 
 输入文件为 `dataset/raw/jobs_raw_sample.csv`，输出文件为 `dataset/processed/jobs_cleaned.csv`。脚本通过自身位置计算项目根目录，不依赖 Shell 当前目录。
 
+## 导入 MySQL
+
+先执行 `sql/004_extend_job_table.sql`、`sql/005_create_skill_tables.sql` 和 `sql/006_prepare_clean_import.sql`。数据库凭据只通过进程环境变量提供，不要写入代码或提交到 Git：
+
+```powershell
+$env:DB_HOST = "127.0.0.1"
+$env:DB_PORT = "3306"
+$env:DB_NAME = "recruit_insight"
+$env:DB_USERNAME = "<local-username>"
+$env:DB_PASSWORD = "<local-password>"
+python data-analysis/src/import_jobs.py
+```
+
+Importer 使用 `source_id`、技能名称和联合主键实现幂等导入，并在单个事务中写入 `job`、`skill` 和 `job_skill`。
+
 ## 测试
 
 ```powershell

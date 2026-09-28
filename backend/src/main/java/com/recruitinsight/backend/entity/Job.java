@@ -15,6 +15,8 @@ public class Job {
     @TableId(type = IdType.AUTO)
     private Long id;
 
+    private String sourceId;
+
     private String title;
 
     private String company;
@@ -23,9 +25,13 @@ public class Job {
 
     private String category;
 
+    private String education;
+
     private Integer salaryMin;
 
     private Integer salaryMax;
+
+    private Integer salaryMonths;
 
     private String description;
 
