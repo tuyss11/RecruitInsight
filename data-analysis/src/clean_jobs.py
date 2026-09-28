@@ -23,7 +23,18 @@ CATEGORY_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("数据分析", ("数据分析", "商业分析", "bi")),
     ("算法", ("算法", "机器学习", "推荐")),
     ("测试", ("测试", "qa")),
-    ("后端开发", ("java", "后端", "服务端", "spring")),
+    (
+        "后端开发",
+        (
+            "java",
+            "后端",
+            "服务端",
+            "spring",
+            "python开发",
+            "python后端",
+            "python服务端",
+        ),
+    ),
 )
 
 SKILL_PATTERNS: tuple[tuple[str, str], ...] = (

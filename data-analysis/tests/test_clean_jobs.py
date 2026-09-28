@@ -85,6 +85,12 @@ class ClassifyCategoryTest(unittest.TestCase):
     def test_backend(self) -> None:
         self.assertEqual(classify_job_category("Java后端实习生"), "后端开发")
 
+    def test_python_development_is_backend(self) -> None:
+        self.assertEqual(classify_job_category("Python开发实习生"), "后端开发")
+
+    def test_python_data_development_keeps_higher_priority(self) -> None:
+        self.assertEqual(classify_job_category("Python数据开发工程师"), "数据开发")
+
     def test_data_analysis(self) -> None:
         self.assertEqual(classify_job_category("商业数据分析"), "数据分析")
 
