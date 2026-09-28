@@ -1,0 +1,60 @@
+﻿source_id,title,company,city,category,education,salary_min,salary_max,salary_months,description,skills,publish_date
+raw001,Java开发实习生,星河科技,北京,后端开发,本科及以上,10000,15000,12,熟悉 java SpringBoot Mysql Redis,Java|MySQL|Spring Boot|Redis,2026-08-01
+raw002,Java后端实习生,蓝海数据,北京,后端开发,本科,15000,25000,12,使用 JAVA Spring Boot MySQL Git,Java|MySQL|Spring Boot|Git,2026-08-02
+raw003,JAVA研发实习,云杉网络,北京,后端开发,本科,15000,25000,14,熟悉 java springboot redis Linux,Java|Spring Boot|Redis|Linux,2026-08-03
+raw004,后端开发工程师,示例智能,上海,后端开发,本科及以上,8000,12000,12,负责服务端开发 使用 Spring PostgreSQL Docker,PostgreSQL|Spring|Docker,2026-08-04
+raw005,Python开发实习生,测试科技,上海,其他,本科,6525,8700,12,使用 python Git Linux,Python|Linux|Git,2026-08-05
+raw006,商业数据分析,蓝海数据,上海,数据分析,本科及以上,4350,4350,12,熟练 Excel SQL Tableau PowerBI,SQL|Excel|Tableau|Power BI,2026-08-06
+raw007,数据分析实习生,星河科技,深圳,数据分析,本科,3263,5438,12,使用 Python pandas numpy Excel,Python|Pandas|NumPy|Excel,2026-08-07
+raw008,数据开发工程师,云杉网络,深圳,数据开发,本科及以上,12000,18000,12,熟悉 SQL Hive Spark Docker,SQL|Docker|Hive|Spark,2026-08-08
+raw009,测试开发实习生,示例智能,杭州,测试,本科,,,,掌握 Java Python Git,Java|Python|Git,2026-08-09
+raw010,算法实习生,测试科技,广州,算法,硕士及以上,20000,30000,12,机器学习 推荐算法 Python NumPy,Python|NumPy,2026-08-10
+raw011,推荐算法工程师,星河科技,广州,算法,硕士,25000,40000,15,使用 Python Linux Docker,Python|Linux|Docker,2026-08-11
+raw012,ETL开发实习生,蓝海数据,杭州,数据开发,本科,5438,7613,12,数据仓库 SQL Hive,SQL|Hive,2026-08-12
+raw013,BI分析师,云杉网络,北京,数据分析,本科,9000,14000,12,Excel tableau power bi SQL,SQL|Excel|Tableau|Power BI,2026-08-13
+raw014,QA测试工程师,示例智能,上海,测试,本科及以上,11000,17000,12,接口测试 Java Git Linux,Java|Linux|Git,2026-08-14
+raw015,服务端开发实习生,测试科技,深圳,后端开发,本科,3915,3915,12,SpringBoot mysql Redis,MySQL|Spring Boot|Redis,2026-08-15
+raw016,数仓开发工程师,星河科技,杭州,数据开发,本科及以上,16000,24000,12,SQL Hive Spark Python,Python|SQL|Hive|Spark,2026-08-16
+raw017,机器学习工程师,蓝海数据,广州,算法,硕士及以上,,,,Python NumPy Docker Linux,Python|Linux|Docker|NumPy,2026-08-17
+raw018,数据分析师,云杉网络,北京,数据分析,本科,10000,16000,12,Pandas Excel PowerBI SQL,SQL|Pandas|Excel|Power BI,2026-08-18
+raw019,Java开发工程师,示例智能,上海,后端开发,本科及以上,18000,28000,14,JAVA Spring Boot PostgreSQL Redis,Java|PostgreSQL|Spring Boot|Redis,2026-08-19
+raw021,产品运营,星河科技,成都,其他,不限,,,,使用 Excel 进行日常统计,Excel,2026-08-21
+raw022,Python后端工程师,未知公司,北京,后端开发,本科及以上,13000,20000,12,Python PostgreSQL Docker Git,Python|PostgreSQL|Git|Docker,2026-08-22
+raw023,数据分析实习生,蓝海数据,未知,数据分析,本科,2610,3915,12,python Pandas Excel,Python|Pandas|Excel,2026-08-23
+raw024,测试工程师,云杉网络,上海,测试,不限,9000,13000,12,,,2026-08-24
+raw025,Java研发工程师,示例智能,深圳,后端开发,本科及以上,,,,java spring mysql,Java|MySQL|Spring,2026-08-25
+raw026,数据平台开发,测试科技,杭州,其他,本科,14000,22000,12,SQL Hive Spark Linux,SQL|Linux|Hive|Spark,2026-08-26
+raw027,搜索算法实习生,星河科技,广州,算法,硕士,7613,7613,12,Python numpy Linux,Python|Linux|NumPy,2026-08-27
+raw028,商业分析实习生,蓝海数据,北京,数据分析,本科,3915,5655,12,Excel Tableau SQL,SQL|Excel|Tableau,2026-08-28
+raw029,后端服务端工程师,云杉网络,上海,后端开发,本科及以上,17000,27000,12,SpringBoot Redis MySQL Docker,MySQL|Spring Boot|Redis|Docker,2026-08-29
+raw030,自动化测试开发,示例智能,深圳,测试,本科,12000,19000,12,Python Git Linux Docker,Python|Linux|Git|Docker,2026-08-30
+raw031,数据仓库实习生,测试科技,杭州,数据开发,本科,4350,6525,12,Hive Spark SQL,SQL|Hive|Spark,2026-08-31
+raw032,Java开发实习生,星河科技,广州,后端开发,本科及以上,4785,4785,12,JAVA SpringBoot Git,Java|Spring Boot|Git,2026-09-01
+raw033,数据分析专员,蓝海数据,北京,数据分析,本科,8000,13000,12,excel powerbi Mysql,MySQL|Excel|Power BI,2026-09-02
+raw034,推荐系统算法工程师,云杉网络,上海,算法,硕士及以上,22000,35000,14,Python PostgreSQL Redis,Python|PostgreSQL|Redis,2026-09-03
+raw035,软件测试实习生,示例智能,深圳,测试,本科,3480,4785,12,测试用例 Git,Git,2026-09-04
+raw036,Python开发实习生,测试科技,杭州,其他,本科及以上,10000,16000,12,python Django PostgreSQL,Python|PostgreSQL,2026-09-05
+raw037,ETL数据开发工程师,星河科技,广州,数据开发,本科,15000,23000,12,SQL Hive Spark,SQL|Hive|Spark,2026-09-06
+raw038,BI数据分析,蓝海数据,北京,数据分析,本科及以上,12000,18000,12,Tableau Power BI Excel,Excel|Tableau|Power BI,2026-09-07
+raw039,Spring后端工程师,云杉网络,上海,后端开发,本科,16000,26000,12,Spring SpringBoot MySQL Redis,MySQL|Spring Boot|Spring|Redis,2026-09-08
+raw040,性能测试工程师,示例智能,深圳,测试,本科及以上,14000,21000,12,Java Linux Docker,Java|Linux|Docker,2026-09-09
+raw042,算法研究实习生,星河科技,广州,算法,硕士及以上,8700,10875,12,机器学习 Python NumPy,Python|NumPy,2026-09-11
+raw043,数据开发实习生,蓝海数据,北京,数据开发,本科,3915,5220,12,SQL hive spark,SQL|Hive|Spark,2026-09-12
+raw044,商业数据分析师,云杉网络,上海,数据分析,本科及以上,11000,17000,12,Pandas Excel tableau,Pandas|Excel|Tableau,2026-09-13
+raw045,Java服务端开发,示例智能,深圳,后端开发,本科,19000,29000,12,java Spring Boot Mysql Git,Java|MySQL|Spring Boot|Git,2026-09-14
+raw046,QA实习生,测试科技,杭州,测试,不限,3263,3263,12,Python 自动化测试,Python,2026-09-15
+raw047,数据治理工程师,星河科技,广州,其他,本科及以上,13000,20000,12,SQL PostgreSQL Linux,SQL|PostgreSQL|Linux,2026-09-16
+raw048,机器学习实习生,蓝海数据,北京,算法,硕士,6525,9788,12,python numpy Docker,Python|Docker|NumPy,2026-09-17
+raw049,后端开发工程师,云杉网络,上海,后端开发,本科及以上,20000,32000,15,SpringBoot Redis PostgreSQL,PostgreSQL|Spring Boot|Redis,2026-09-18
+raw050,数据分析实习生,示例智能,深圳,数据分析,本科,3915,3915,12,Python pandas Excel PowerBI,Python|Pandas|Excel|Power BI,2026-09-19
+raw051,测试开发工程师,测试科技,杭州,测试,本科及以上,15000,22000,12,Java Git Docker Linux,Java|Linux|Git|Docker,2026-09-20
+raw052,数仓ETL工程师,星河科技,广州,数据开发,本科,18000,26000,12,Hive Spark SQL,SQL|Hive|Spark,2026-09-21
+raw053,Java后端实习生,蓝海数据,北京,后端开发,本科,5438,6960,12,JAVA springboot mysql redis,Java|MySQL|Spring Boot|Redis,2026-09-22
+raw054,数据可视化分析师,云杉网络,上海,其他,本科及以上,14000,20000,12,Tableau Power BI Excel SQL,SQL|Excel|Tableau|Power BI,2026-09-23
+raw055,推荐算法实习生,示例智能,深圳,算法,硕士及以上,7613,9788,12,Python NumPy Linux,Python|Linux|NumPy,2026-09-24
+raw056,服务端研发工程师,测试科技,杭州,后端开发,本科,,,,Spring PostgreSQL Docker,PostgreSQL|Spring|Docker,2026-09-25
+raw057,数据开发工程师,星河科技,广州,数据开发,本科及以上,18000,28000,12,Python SQL Hive Spark,Python|SQL|Hive|Spark,2026-09-26
+raw058,测试开发实习生,蓝海数据,北京,测试,本科,4350,4350,12,java Git Linux,Java|Linux|Git,2026-09-27
+raw059,行政助理,云杉网络,上海,其他,不限,6000,8000,12,Excel,Excel,2026-09-28
+raw060,数据分析师,示例智能,深圳,数据分析,本科及以上,,,,SQL pandas Tableau,SQL|Pandas|Tableau,2026-09-29
+raw063,Python数据工程师,测试科技,西安,其他,本科及以上,13000,19000,12,Python SQL PostgreSQL Docker,Python|SQL|PostgreSQL|Docker,2026-09-30

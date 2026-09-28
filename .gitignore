@@ -27,9 +27,10 @@ env/
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.coverage
+htmlcov/
 
 # Operating system files
 .DS_Store
 Thumbs.db
 Desktop.ini
-

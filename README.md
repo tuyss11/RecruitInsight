@@ -1,6 +1,6 @@
 # RecruitInsight
 
-RecruitInsight 是一个用于学习和作品展示的招聘数据分析平台。当前阶段只实现后端 MVP：通过 Spring Boot、MyBatis-Plus 和 MySQL 跑通岗位列表查询链路。
+RecruitInsight 是一个用于学习和作品展示的招聘数据分析平台。当前已包含岗位查询后端和基于 Pandas 的模拟招聘数据清洗 Pipeline。
 
 ## 当前范围
 
@@ -8,8 +8,9 @@ RecruitInsight 是一个用于学习和作品展示的招聘数据分析平台�
 - API：`GET /api/jobs`
 - 数据库：`recruit_insight`
 - 数据表：`job`
+- 数据处理：Python 3.12、Pandas
 
-前端与 Python 数据分析暂不开发。
+前端暂不开发。当前 Python Pipeline 只处理模拟 CSV，不写入 MySQL。
 
 ## 本地数据库配置
 
@@ -66,3 +67,29 @@ http://localhost:8080/api/jobs
 ```text
 http://localhost:8080/api/jobs?page=1&size=10&keyword=Java&city=上海
 ```
+
+## Data Processing
+
+当前数据处理流程为：
+
+```text
+模拟原始 CSV → Pandas cleaning → 清洗后的 CSV
+```
+
+从项目根目录运行：
+
+```powershell
+python data-analysis/src/clean_jobs.py
+```
+
+输入：`dataset/raw/jobs_raw_sample.csv`
+
+输出：`dataset/processed/jobs_cleaned.csv`
+
+执行基础测试：
+
+```powershell
+python -m unittest discover -s data-analysis/tests -v
+```
+
+目前所有招聘记录均为模拟测试数据，不代表真实企业招聘信息，也不来自招聘网站爬取。
