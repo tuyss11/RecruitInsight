@@ -4,11 +4,19 @@ server:
 spring:
   application:
     name: backend
+  cache:
+    type: redis
   datasource:
     url: jdbc:mysql://localhost:3306/recruit_insight?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      connect-timeout: 2s
+      timeout: 2s
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml

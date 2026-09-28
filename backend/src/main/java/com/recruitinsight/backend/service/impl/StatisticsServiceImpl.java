@@ -1,5 +1,6 @@
 package com.recruitinsight.backend.service.impl;
 
+import com.recruitinsight.backend.cache.StatisticsCacheKeys;
 import com.recruitinsight.backend.dto.statistics.CategoryStatistics;
 import com.recruitinsight.backend.dto.statistics.CityStatistics;
 import com.recruitinsight.backend.dto.statistics.OverviewStatistics;
@@ -7,6 +8,7 @@ import com.recruitinsight.backend.dto.statistics.SalaryStatistics;
 import com.recruitinsight.backend.dto.statistics.SkillStatistics;
 import com.recruitinsight.backend.mapper.StatisticsMapper;
 import com.recruitinsight.backend.service.StatisticsService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -27,22 +29,42 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
+    @Cacheable(
+            cacheNames = StatisticsCacheKeys.CACHE_NAME,
+            key = "'overview'",
+            unless = "#result == null"
+    )
     public OverviewStatistics getOverview() {
         return statisticsMapper.selectOverview();
     }
 
     @Override
+    @Cacheable(
+            cacheNames = StatisticsCacheKeys.CACHE_NAME,
+            key = "T(com.recruitinsight.backend.cache.StatisticsCacheKeys).skills(#limit, #category)",
+            unless = "#result == null || #result.isEmpty()"
+    )
     public List<SkillStatistics> getTopSkills(int limit, String category) {
         String normalizedCategory = StringUtils.hasText(category) ? category.trim() : null;
         return statisticsMapper.selectTopSkills(normalizedCategory, limit);
     }
 
     @Override
+    @Cacheable(
+            cacheNames = StatisticsCacheKeys.CACHE_NAME,
+            key = "'cities'",
+            unless = "#result == null || #result.isEmpty()"
+    )
     public List<CityStatistics> getCityStatistics() {
         return statisticsMapper.selectCityStatistics();
     }
 
     @Override
+    @Cacheable(
+            cacheNames = StatisticsCacheKeys.CACHE_NAME,
+            key = "'categories'",
+            unless = "#result == null || #result.isEmpty()"
+    )
     public List<CategoryStatistics> getCategoryStatistics() {
         List<CategoryStatistics> statistics = statisticsMapper.selectCategoryStatistics();
         long totalJobs = statistics.stream()
@@ -56,6 +78,11 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
+    @Cacheable(
+            cacheNames = StatisticsCacheKeys.CACHE_NAME,
+            key = "'salary'",
+            unless = "#result == null || #result.isEmpty()"
+    )
     public List<SalaryStatistics> getSalaryStatistics() {
         return statisticsMapper.selectSalaryStatistics();
     }

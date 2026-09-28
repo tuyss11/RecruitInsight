@@ -1,0 +1,524 @@
+{
+  "label": "before",
+  "dataset_notice": "Programmatically generated simulated performance-test data",
+  "measured_at_utc": "2026-09-28T09:58:13.607670+00:00",
+  "database": "recruit_insight_perf",
+  "mysql_version": "8.4.9",
+  "warmups": 3,
+  "repetitions": 10,
+  "table_counts": {
+    "job": 30000,
+    "skill": 18,
+    "job_skill": 119971
+  },
+  "indexes": [
+    {
+      "TABLE_NAME": "job",
+      "INDEX_NAME": "PRIMARY",
+      "NON_UNIQUE": 0,
+      "SEQ_IN_INDEX": 1,
+      "COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "job",
+      "INDEX_NAME": "uk_job_source_id",
+      "NON_UNIQUE": 0,
+      "SEQ_IN_INDEX": 1,
+      "COLUMN_NAME": "source_id"
+    },
+    {
+      "TABLE_NAME": "job_skill",
+      "INDEX_NAME": "idx_job_skill_skill_id",
+      "NON_UNIQUE": 1,
+      "SEQ_IN_INDEX": 1,
+      "COLUMN_NAME": "skill_id"
+    },
+    {
+      "TABLE_NAME": "job_skill",
+      "INDEX_NAME": "PRIMARY",
+      "NON_UNIQUE": 0,
+      "SEQ_IN_INDEX": 1,
+      "COLUMN_NAME": "job_id"
+    },
+    {
+      "TABLE_NAME": "job_skill",
+      "INDEX_NAME": "PRIMARY",
+      "NON_UNIQUE": 0,
+      "SEQ_IN_INDEX": 2,
+      "COLUMN_NAME": "skill_id"
+    },
+    {
+      "TABLE_NAME": "skill",
+      "INDEX_NAME": "PRIMARY",
+      "NON_UNIQUE": 0,
+      "SEQ_IN_INDEX": 1,
+      "COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "skill",
+      "INDEX_NAME": "uk_skill_name",
+      "NON_UNIQUE": 0,
+      "SEQ_IN_INDEX": 1,
+      "COLUMN_NAME": "name"
+    }
+  ],
+  "queries": [
+    {
+      "code": "A",
+      "name": "city + category deep pagination",
+      "sql": "SELECT id, source_id, title, company, city, category, education, salary_min, salary_max, salary_months, publish_date FROM job WHERE city = %s AND category = %s ORDER BY publish_date DESC, id DESC LIMIT 20 OFFSET 200",
+      "params": [
+        "上海",
+        "后端开发"
+      ],
+      "returned_rows": 20,
+      "timing_ms": {
+        "min": 8.5276,
+        "median": 9.4676,
+        "max": 11.2285,
+        "samples": [
+          9.6602,
+          9.3158,
+          11.2285,
+          9.209,
+          10.0267,
+          9.3396,
+          8.7296,
+          10.3864,
+          9.5956,
+          8.5276
+        ]
+      },
+      "explain": [
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "job",
+          "partitions": null,
+          "type": "ALL",
+          "possible_keys": null,
+          "key": null,
+          "key_len": null,
+          "ref": null,
+          "rows": 29571,
+          "filtered": 1.0,
+          "Extra": "Using where; Using filesort"
+        }
+      ],
+      "explain_analyze": [
+        "-> Limit/Offset: 20/200 row(s)  (cost=3093 rows=20) (actual time=11..11 rows=20 loops=1)\n    -> Sort: job.publish_date DESC, job.id DESC, limit input to 220 row(s) per chunk  (cost=3093 rows=29571) (actual time=11..11 rows=220 loops=1)\n        -> Filter: ((job.category = '后端开发') and (job.city = '上海'))  (cost=3093 rows=29571) (actual time=0.0335..10.6 rows=928 loops=1)\n            -> Table scan on job  (cost=3093 rows=29571) (actual time=0.0268..8.05 rows=30000 loops=1)\n"
+      ]
+    },
+    {
+      "code": "B",
+      "name": "single city pagination",
+      "sql": "SELECT id, source_id, title, company, city, category, education, salary_min, salary_max, salary_months, publish_date FROM job WHERE city = %s ORDER BY publish_date DESC, id DESC LIMIT 20",
+      "params": [
+        "上海"
+      ],
+      "returned_rows": 20,
+      "timing_ms": {
+        "min": 7.9086,
+        "median": 8.448,
+        "max": 10.2523,
+        "samples": [
+          8.0651,
+          10.0316,
+          9.0886,
+          8.2028,
+          9.3923,
+          8.4375,
+          7.9086,
+          10.2523,
+          8.2655,
+          8.4585
+        ]
+      },
+      "explain": [
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "job",
+          "partitions": null,
+          "type": "ALL",
+          "possible_keys": null,
+          "key": null,
+          "key_len": null,
+          "ref": null,
+          "rows": 29571,
+          "filtered": 10.0,
+          "Extra": "Using where; Using filesort"
+        }
+      ],
+      "explain_analyze": [
+        "-> Limit: 20 row(s)  (cost=3093 rows=20) (actual time=8.57..8.57 rows=20 loops=1)\n    -> Sort: job.publish_date DESC, job.id DESC, limit input to 20 row(s) per chunk  (cost=3093 rows=29571) (actual time=8.57..8.57 rows=20 loops=1)\n        -> Filter: (job.city = '上海')  (cost=3093 rows=29571) (actual time=0.0264..8.18 rows=2990 loops=1)\n            -> Table scan on job  (cost=3093 rows=29571) (actual time=0.0236..6.81 rows=30000 loops=1)\n"
+      ]
+    },
+    {
+      "code": "C",
+      "name": "single category pagination",
+      "sql": "SELECT id, source_id, title, company, city, category, education, salary_min, salary_max, salary_months, publish_date FROM job WHERE category = %s ORDER BY publish_date DESC, id DESC LIMIT 20",
+      "params": [
+        "后端开发"
+      ],
+      "returned_rows": 20,
+      "timing_ms": {
+        "min": 8.8329,
+        "median": 9.8742,
+        "max": 14.7316,
+        "samples": [
+          10.2147,
+          10.466,
+          9.3071,
+          14.7316,
+          9.014,
+          9.4504,
+          10.7699,
+          8.8329,
+          11.3758,
+          9.5338
+        ]
+      },
+      "explain": [
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "job",
+          "partitions": null,
+          "type": "ALL",
+          "possible_keys": null,
+          "key": null,
+          "key_len": null,
+          "ref": null,
+          "rows": 29571,
+          "filtered": 10.0,
+          "Extra": "Using where; Using filesort"
+        }
+      ],
+      "explain_analyze": [
+        "-> Limit: 20 row(s)  (cost=3093 rows=20) (actual time=9.47..9.47 rows=20 loops=1)\n    -> Sort: job.publish_date DESC, job.id DESC, limit input to 20 row(s) per chunk  (cost=3093 rows=29571) (actual time=9.47..9.47 rows=20 loops=1)\n        -> Filter: (job.category = '后端开发')  (cost=3093 rows=29571) (actual time=0.0227..8.46 rows=8850 loops=1)\n            -> Table scan on job  (cost=3093 rows=29571) (actual time=0.0207..6.73 rows=30000 loops=1)\n"
+      ]
+    },
+    {
+      "code": "D",
+      "name": "city + category pagination count",
+      "sql": "SELECT COUNT(*) FROM job WHERE city = %s AND category = %s",
+      "params": [
+        "上海",
+        "后端开发"
+      ],
+      "returned_rows": 1,
+      "timing_ms": {
+        "min": 4.7411,
+        "median": 4.9188,
+        "max": 5.8031,
+        "samples": [
+          5.8031,
+          4.9856,
+          4.8286,
+          4.8065,
+          5.0896,
+          4.8521,
+          5.3042,
+          4.7567,
+          4.9863,
+          4.7411
+        ]
+      },
+      "explain": [
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "job",
+          "partitions": null,
+          "type": "ALL",
+          "possible_keys": null,
+          "key": null,
+          "key_len": null,
+          "ref": null,
+          "rows": 29571,
+          "filtered": 1.0,
+          "Extra": "Using where"
+        }
+      ],
+      "explain_analyze": [
+        "-> Aggregate: count(0)  (cost=3123 rows=1) (actual time=5.85..5.85 rows=1 loops=1)\n    -> Filter: ((job.category = '后端开发') and (job.city = '上海'))  (cost=3093 rows=296) (actual time=0.0153..5.82 rows=928 loops=1)\n        -> Table scan on job  (cost=3093 rows=29571) (actual time=0.0134..3.81 rows=30000 loops=1)\n"
+      ]
+    },
+    {
+      "code": "E",
+      "name": "skills Top 10",
+      "sql": "SELECT s.name, COUNT(*) AS job_count FROM job_skill js INNER JOIN skill s ON s.id = js.skill_id INNER JOIN job j ON j.id = js.job_id GROUP BY s.id, s.name ORDER BY job_count DESC, s.name ASC LIMIT 10",
+      "params": [],
+      "returned_rows": 10,
+      "timing_ms": {
+        "min": 146.0456,
+        "median": 156.8076,
+        "max": 161.6568,
+        "samples": [
+          161.6568,
+          156.3375,
+          160.4111,
+          153.4042,
+          152.5785,
+          146.0456,
+          157.2777,
+          159.4095,
+          160.9113,
+          150.1382
+        ]
+      },
+      "explain": [
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "s",
+          "partitions": null,
+          "type": "index",
+          "possible_keys": "PRIMARY,uk_skill_name",
+          "key": "uk_skill_name",
+          "key_len": "402",
+          "ref": null,
+          "rows": 18,
+          "filtered": 100.0,
+          "Extra": "Using index; Using temporary; Using filesort"
+        },
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "js",
+          "partitions": null,
+          "type": "ref",
+          "possible_keys": "PRIMARY,idx_job_skill_skill_id",
+          "key": "idx_job_skill_skill_id",
+          "key_len": "8",
+          "ref": "recruit_insight_perf.s.id",
+          "rows": 7065,
+          "filtered": 100.0,
+          "Extra": "Using index"
+        },
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "j",
+          "partitions": null,
+          "type": "eq_ref",
+          "possible_keys": "PRIMARY",
+          "key": "PRIMARY",
+          "key_len": "8",
+          "ref": "recruit_insight_perf.js.job_id",
+          "rows": 1,
+          "filtered": 100.0,
+          "Extra": "Using index"
+        }
+      ],
+      "explain_analyze": [
+        "-> Limit: 10 row(s)  (actual time=180..180 rows=10 loops=1)\n    -> Sort: job_count DESC, s.`name`, limit input to 10 row(s) per chunk  (actual time=180..180 rows=10 loops=1)\n        -> Table scan on <temporary>  (actual time=180..180 rows=18 loops=1)\n            -> Aggregate using temporary table  (actual time=180..180 rows=18 loops=1)\n                -> Nested loop inner join  (cost=57333 rows=127186) (actual time=0.0632..139 rows=119971 loops=1)\n                    -> Nested loop inner join  (cost=12818 rows=127186) (actual time=0.0584..21.1 rows=119971 loops=1)\n                        -> Covering index scan on s using uk_skill_name  (cost=2.05 rows=18) (actual time=0.0134..0.0357 rows=18 loops=1)\n                        -> Covering index lookup on js using idx_job_skill_skill_id (skill_id=s.id)  (cost=44.7 rows=7066) (actual time=0.0431..0.923 rows=6665 loops=18)\n                    -> Single-row covering index lookup on j using PRIMARY (id=js.job_id)  (cost=0.25 rows=1) (actual time=866e-6..883e-6 rows=1 loops=119971)\n"
+      ]
+    },
+    {
+      "code": "F",
+      "name": "category skills Top 10",
+      "sql": "SELECT s.name, COUNT(*) AS job_count FROM job_skill js INNER JOIN skill s ON s.id = js.skill_id INNER JOIN job j ON j.id = js.job_id WHERE j.category = %s GROUP BY s.id, s.name ORDER BY job_count DESC, s.name ASC LIMIT 10",
+      "params": [
+        "后端开发"
+      ],
+      "returned_rows": 10,
+      "timing_ms": {
+        "min": 45.6329,
+        "median": 47.2603,
+        "max": 50.3578,
+        "samples": [
+          47.9651,
+          47.6883,
+          49.109,
+          46.6694,
+          46.8323,
+          46.5024,
+          45.9057,
+          45.6329,
+          50.3578,
+          49.6168
+        ]
+      },
+      "explain": [
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "j",
+          "partitions": null,
+          "type": "ALL",
+          "possible_keys": "PRIMARY",
+          "key": null,
+          "key_len": null,
+          "ref": null,
+          "rows": 29571,
+          "filtered": 10.0,
+          "Extra": "Using where; Using temporary; Using filesort"
+        },
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "js",
+          "partitions": null,
+          "type": "ref",
+          "possible_keys": "PRIMARY,idx_job_skill_skill_id",
+          "key": "PRIMARY",
+          "key_len": "8",
+          "ref": "recruit_insight_perf.j.id",
+          "rows": 3,
+          "filtered": 100.0,
+          "Extra": "Using index"
+        },
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "s",
+          "partitions": null,
+          "type": "eq_ref",
+          "possible_keys": "PRIMARY,uk_skill_name",
+          "key": "PRIMARY",
+          "key_len": "8",
+          "ref": "recruit_insight_perf.js.skill_id",
+          "rows": 1,
+          "filtered": 100.0,
+          "Extra": null
+        }
+      ],
+      "explain_analyze": [
+        "-> Limit: 10 row(s)  (actual time=62.3..62.3 rows=10 loops=1)\n    -> Sort: job_count DESC, s.`name`, limit input to 10 row(s) per chunk  (actual time=62.3..62.3 rows=10 loops=1)\n        -> Table scan on <temporary>  (actual time=62.3..62.3 rows=18 loops=1)\n            -> Aggregate using temporary table  (actual time=62.3..62.3 rows=18 loops=1)\n                -> Nested loop inner join  (cost=9145 rows=11786) (actual time=0.0364..49.7 rows=35333 loops=1)\n                    -> Nested loop inner join  (cost=5020 rows=11786) (actual time=0.0334..27.3 rows=35333 loops=1)\n                        -> Filter: (j.category = '后端开发')  (cost=3093 rows=2957) (actual time=0.0267..8.42 rows=8850 loops=1)\n                            -> Table scan on j  (cost=3093 rows=29571) (actual time=0.0247..5.71 rows=30000 loops=1)\n                        -> Covering index lookup on js using PRIMARY (job_id=j.id)  (cost=0.253 rows=3.99) (actual time=0.00135..0.00192 rows=3.99 loops=8850)\n                    -> Single-row index lookup on s using PRIMARY (id=js.skill_id)  (cost=0.25 rows=1) (actual time=516e-6..534e-6 rows=1 loops=35333)\n"
+      ]
+    },
+    {
+      "code": "G",
+      "name": "cities GROUP BY",
+      "sql": "SELECT city, COUNT(*) AS job_count FROM job GROUP BY city ORDER BY job_count DESC, city ASC",
+      "params": [],
+      "returned_rows": 10,
+      "timing_ms": {
+        "min": 9.6724,
+        "median": 10.1635,
+        "max": 14.7124,
+        "samples": [
+          14.7124,
+          10.016,
+          10.4711,
+          9.8851,
+          12.2792,
+          10.0009,
+          9.697,
+          11.7547,
+          10.311,
+          9.6724
+        ]
+      },
+      "explain": [
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "job",
+          "partitions": null,
+          "type": "ALL",
+          "possible_keys": null,
+          "key": null,
+          "key_len": null,
+          "ref": null,
+          "rows": 29571,
+          "filtered": 100.0,
+          "Extra": "Using temporary; Using filesort"
+        }
+      ],
+      "explain_analyze": [
+        "-> Sort: job_count DESC, job.city  (actual time=10.1..10.1 rows=10 loops=1)\n    -> Table scan on <temporary>  (actual time=10.1..10.1 rows=10 loops=1)\n        -> Aggregate using temporary table  (actual time=10..10 rows=10 loops=1)\n            -> Table scan on job  (cost=3093 rows=29571) (actual time=0.0146..3.93 rows=30000 loops=1)\n"
+      ]
+    },
+    {
+      "code": "H",
+      "name": "salary GROUP BY",
+      "sql": "SELECT category, COUNT(*) AS job_count, CAST(ROUND(AVG(salary_min), 0) AS SIGNED) AS average_salary_min, CAST(ROUND(AVG(salary_max), 0) AS SIGNED) AS average_salary_max, CAST(ROUND(AVG((salary_min + salary_max) / 2.0), 0) AS SIGNED) AS average_salary_mid FROM job WHERE salary_min IS NOT NULL AND salary_max IS NOT NULL GROUP BY category ORDER BY job_count DESC, category ASC",
+      "params": [],
+      "returned_rows": 6,
+      "timing_ms": {
+        "min": 18.6905,
+        "median": 21.0575,
+        "max": 22.5245,
+        "samples": [
+          22.0693,
+          22.5245,
+          20.7172,
+          19.4565,
+          21.9685,
+          22.0018,
+          20.8946,
+          21.2205,
+          18.6905,
+          18.9126
+        ]
+      },
+      "explain": [
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "job",
+          "partitions": null,
+          "type": "ALL",
+          "possible_keys": null,
+          "key": null,
+          "key_len": null,
+          "ref": null,
+          "rows": 29571,
+          "filtered": 81.0,
+          "Extra": "Using where; Using temporary; Using filesort"
+        }
+      ],
+      "explain_analyze": [
+        "-> Sort: job_count DESC, job.category  (actual time=24..24 rows=6 loops=1)\n    -> Table scan on <temporary>  (actual time=24..24 rows=6 loops=1)\n        -> Aggregate using temporary table  (actual time=24..24 rows=6 loops=1)\n            -> Filter: ((job.salary_min is not null) and (job.salary_max is not null))  (cost=3093 rows=23953) (actual time=0.0187..8.77 rows=26986 loops=1)\n                -> Table scan on job  (cost=3093 rows=29571) (actual time=0.018..6.55 rows=30000 loops=1)\n"
+      ]
+    },
+    {
+      "code": "I",
+      "name": "leading-wildcard title search",
+      "sql": "SELECT id, source_id, title, company, city, category, education, salary_min, salary_max, salary_months, publish_date FROM job WHERE title LIKE %s ORDER BY publish_date DESC, id DESC LIMIT 20",
+      "params": [
+        "%Java%"
+      ],
+      "returned_rows": 20,
+      "timing_ms": {
+        "min": 9.0329,
+        "median": 9.2824,
+        "max": 11.959,
+        "samples": [
+          9.0329,
+          9.6839,
+          9.148,
+          11.959,
+          10.4586,
+          9.0996,
+          9.4168,
+          9.1312,
+          9.0578,
+          10.2217
+        ]
+      },
+      "explain": [
+        {
+          "id": 1,
+          "select_type": "SIMPLE",
+          "table": "job",
+          "partitions": null,
+          "type": "ALL",
+          "possible_keys": null,
+          "key": null,
+          "key_len": null,
+          "ref": null,
+          "rows": 29571,
+          "filtered": 11.11,
+          "Extra": "Using where; Using filesort"
+        }
+      ],
+      "explain_analyze": [
+        "-> Limit: 20 row(s)  (cost=3093 rows=20) (actual time=9.98..9.98 rows=20 loops=1)\n    -> Sort: job.publish_date DESC, job.id DESC, limit input to 20 row(s) per chunk  (cost=3093 rows=29571) (actual time=9.98..9.98 rows=20 loops=1)\n        -> Filter: (job.title like '%Java%')  (cost=3093 rows=29571) (actual time=0.0303..9.68 rows=2213 loops=1)\n            -> Table scan on job  (cost=3093 rows=29571) (actual time=0.0224..7.16 rows=30000 loops=1)\n"
+      ]
+    }
+  ]
+}

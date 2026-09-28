@@ -31,6 +31,12 @@ __pycache__/
 .coverage
 htmlcov/
 
+# Generated performance-test artifacts
+dataset/perf/*.csv
+dump.rdb
+appendonlydir/
+.playwright-cli/
+
 # Operating system files
 .DS_Store
 Thumbs.db

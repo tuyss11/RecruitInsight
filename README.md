@@ -1,16 +1,16 @@
 # RecruitInsight
 
-RecruitInsight 是一个用于学习和作品展示的招聘数据分析平台。当前已包含岗位查询后端和基于 Pandas 的模拟招聘数据清洗 Pipeline。
+RecruitInsight 是一个用于学习和作品展示的招聘数据分析平台，包含 Pandas 模拟数据清洗、MySQL 数据建模、Spring Boot API、Redis 统计缓存以及 Vue 3 + ECharts Dashboard。
 
 ## 当前范围
 
 - 后端：Java 21、Spring Boot、Maven、MyBatis-Plus、MySQL
-- API：`GET /api/jobs`
+- API：岗位分页查询与招聘统计接口
 - 数据库：`recruit_insight`
-- 数据表：`job`
+- 数据表：`job`、`skill`、`job_skill`
 - 数据处理：Python 3.12、Pandas
-
-前端暂不开发。当前 Python Pipeline 只处理模拟 CSV，不写入 MySQL。
+- 前端：Vue 3、Vite、ECharts
+- 缓存：WSL Redis、Spring Cache
 
 ## 本地数据库配置
 
@@ -34,6 +34,7 @@ RecruitInsight 是一个用于学习和作品展示的招聘数据分析平台�
 5. `004_extend_job_table.sql`
 6. `005_create_skill_tables.sql`
 7. `006_prepare_clean_import.sql`
+8. `007_add_query_indexes.sql`
 
 `002` 和 `003` 用于后端查询阶段的模拟数据；执行 `006` 会在正式导入清洗数据前清除这些旧记录。所有脚本都不包含数据库密码，测试数据中的公司均为明确的示例名称。
 
@@ -158,3 +159,21 @@ npm run build
 `frontend/dist/` 为构建产物并已被 Git 忽略。Dashboard 中的所有数据仍为项目模拟数据，仅用于功能演示。
 
 目前所有招聘记录均为模拟测试数据，不代表真实企业招聘信息，也不来自招聘网站爬取。
+
+## Performance Optimization
+
+数据库性能实验与正常演示数据完全隔离：`recruit_insight` 保持 59 条模拟岗位，`recruit_insight_perf` 使用固定随机种子生成 30,000 条“程序生成的模拟压力测试数据”。测试脚本对项目实际 SQL 执行 3 次预热、10 次正式测量，并保存 `EXPLAIN`、`EXPLAIN ANALYZE` 及 min/median/max。
+
+最终新增 3 个经过实测的复合索引，分别覆盖 city + category 分页、单 city 分页、单 category 分页，并辅助城市与薪资统计。实测 median 中，A/B/C/D 分页相关查询提升 91.09%～95.90%，城市 GROUP BY 提升 64.33%，薪资 GROUP BY 提升 59.06%；全量技能聚合、类别技能聚合和 `LIKE '%Java%'` 没有显示稳定提升，文档保留了负向波动结果。
+
+Statistics API 使用 Spring Cache + Redis JSON 序列化，缓存 overview、skills、cities、categories、salary，TTL 为实际验证的 600 秒。skills key 包含 category 与 limit；`/api/jobs` 不缓存。Python importer 写库后不会主动清理缓存，当前采用最多约 10 分钟的 TTL 最终一致性。
+
+本地启动后端前请保持一个 `wsl -d Ubuntu-24.04` 终端会话打开，以免 WSL 空闲自动停止 Redis；Redis 仍只监听 WSL loopback，并通过 Windows `localhost:6379` 转发访问。
+
+详细设计、执行计划和全部真实数据见：
+
+- `docs/performance-optimization.md`
+- `docs/performance-before-after.md`
+- `docs/benchmark-results/before.json`
+- `docs/benchmark-results/after.json`
+- `docs/benchmark-results/cache-normal.json`
