@@ -108,4 +108,21 @@ python data-analysis/src/import_jobs.py
 
 岗位通过唯一 `source_id` 幂等更新，技能和岗位技能关系分别保存在 `skill` 与 `job_skill` 表中。数据库设计说明见 `docs/database-design.md`。
 
+## Statistics API
+
+以下接口基于项目当前的模拟数据集，由 MySQL 使用 `JOIN`、`GROUP BY`、`COUNT` 和 `AVG` 完成主要聚合：
+
+```text
+GET /api/statistics/overview
+GET /api/statistics/skills
+GET /api/statistics/skills?limit=5&category=后端开发
+GET /api/statistics/cities
+GET /api/statistics/categories
+GET /api/statistics/salary
+```
+
+`skills` 的 `limit` 默认为 10，允许范围为 1～50，`category` 为可选精确筛选条件。薪资接口只统计月薪上下界均已知的岗位，结果单位为人民币元/月。核心查询及解释见 `docs/statistics-sql.md`。
+
+所有当前分析结果均为项目模拟数据统计结果，不能解释为真实招聘市场结论。
+
 目前所有招聘记录均为模拟测试数据，不代表真实企业招聘信息，也不来自招聘网站爬取。

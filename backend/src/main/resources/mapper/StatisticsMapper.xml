@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recruitinsight.backend.mapper.StatisticsMapper">
+
+    <select id="selectOverview"
+            resultType="com.recruitinsight.backend.dto.statistics.OverviewStatistics">
+        SELECT COUNT(*) AS total_jobs,
+               COUNT(DISTINCT company) AS total_companies,
+               COUNT(DISTINCT city) AS total_cities,
+               (SELECT COUNT(*) FROM skill) AS total_skills,
+               SUM(
+                   CASE
+                       WHEN salary_min IS NOT NULL AND salary_max IS NOT NULL THEN 1
+                       ELSE 0
+                   END
+               ) AS salary_known_jobs,
+               SUM(
+                   CASE
+                       WHEN salary_min IS NULL OR salary_max IS NULL THEN 1
+                       ELSE 0
+                   END
+               ) AS salary_unknown_jobs
+        FROM job
+    </select>
+
+    <select id="selectTopSkills"
+            resultType="com.recruitinsight.backend.dto.statistics.SkillStatistics">
+        SELECT s.name,
+               COUNT(*) AS job_count
+        FROM job_skill js
+        INNER JOIN skill s ON s.id = js.skill_id
+        INNER JOIN job j ON j.id = js.job_id
+        <where>
+            <if test="category != null and category != ''">
+                j.category = #{category}
+            </if>
+        </where>
+        GROUP BY s.id, s.name
+        ORDER BY job_count DESC, s.name ASC
+        LIMIT #{limit}
+    </select>
+
+    <select id="selectCityStatistics"
+            resultType="com.recruitinsight.backend.dto.statistics.CityStatistics">
+        SELECT city,
+               COUNT(*) AS job_count
+        FROM job
+        GROUP BY city
+        ORDER BY job_count DESC, city ASC
+    </select>
+
+    <select id="selectCategoryStatistics"
+            resultType="com.recruitinsight.backend.dto.statistics.CategoryStatistics">
+        SELECT category,
+               COUNT(*) AS job_count
+        FROM job
+        GROUP BY category
+        ORDER BY job_count DESC, category ASC
+    </select>
+
+    <select id="selectSalaryStatistics"
+            resultType="com.recruitinsight.backend.dto.statistics.SalaryStatistics">
+        SELECT category,
+               COUNT(*) AS job_count,
+               CAST(ROUND(AVG(salary_min), 0) AS SIGNED) AS average_salary_min,
+               CAST(ROUND(AVG(salary_max), 0) AS SIGNED) AS average_salary_max,
+               CAST(
+                   ROUND(AVG((salary_min + salary_max) / 2.0), 0)
+                   AS SIGNED
+               ) AS average_salary_mid
+        FROM job
+        WHERE salary_min IS NOT NULL
+          AND salary_max IS NOT NULL
+        GROUP BY category
+        ORDER BY job_count DESC, category ASC
+    </select>
+
+</mapper>
