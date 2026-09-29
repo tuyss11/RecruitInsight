@@ -13,6 +13,39 @@ raw CSV
   → Spring Boot API
 ```
 
+## ER 图
+
+```mermaid
+erDiagram
+    JOB ||--o{ JOB_SKILL : requires
+    SKILL ||--o{ JOB_SKILL : appears_in
+
+    JOB {
+        BIGINT id PK
+        VARCHAR source_id UK
+        VARCHAR title
+        VARCHAR company
+        VARCHAR city
+        VARCHAR category
+        INT salary_min
+        INT salary_max
+        TINYINT salary_months
+        DATE publish_date
+    }
+
+    SKILL {
+        BIGINT id PK
+        VARCHAR name UK
+    }
+
+    JOB_SKILL {
+        BIGINT job_id PK, FK
+        BIGINT skill_id PK, FK
+    }
+```
+
+`job` 与 `skill` 是多对多关系：一个岗位可以要求多个技能，同一技能也可以出现在多个岗位中；`job_skill` 将它拆成两个一对多关系。
+
 ## job
 
 `job` 保存岗位自身的结构化属性。`source_id` 对应清洗 CSV 的原始记录 ID，并通过唯一索引支持重复导入时更新同一岗位。未知薪资使用 SQL `NULL`，不使用 0。`created_at` 和 `updated_at` 继续由数据库维护。
